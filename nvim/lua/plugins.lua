@@ -1,8 +1,11 @@
 
 return require('packer').startup(function()
+	
+	vim.cmd("set shiftwidth=4")
+	vim.cmd("set autoindent")
+	vim.cmd("set smartindent")
 
 	use 'wbthomason/packer.nvim'
-
 	use 'romgrk/barbar.nvim'
 
 	require'bufferline'.setup {
@@ -19,7 +22,7 @@ return require('packer').startup(function()
 	
 	require('nvim-treesitter.configs').setup {
 	  -- A list of parser names, or "all"
-	  ensure_installed = { "c", "cpp", "c_sharp", "lua"},
+	  ensure_installed = { "c", "cpp", "c_sharp", "lua", "python"},
 
 	  -- Install parsers synchronously (only applied to `ensure_installed`)
 	  sync_install = false,
@@ -96,14 +99,16 @@ return require('packer').startup(function()
 	    flags = lsp_flags,
     	}))
 
-	require('lspconfig')['jedi_language_server'].setup(coq.lsp_ensure_capabilities({
+	require('lspconfig')['pyright'].setup(coq.lsp_ensure_capabilities({
 	    on_attach = on_attach,
 	    flags = lsp_flags,
     	}))
 
 	require('lspconfig')['omnisharp'].setup(coq.lsp_ensure_capabilities({
+	    on_attach = on_attach,
+	    flags = lsp_flags,
 	    cmd = { "dotnet", "/Users/idobbins/Downloads/omnisharp-osx-x64-net6.0/OmniSharp.dll" },
-
+	    
 	    -- Enables support for reading code style, naming convention and analyzer
 	    -- settings from .editorconfig.
 	    enable_editorconfig_support = true,
@@ -138,7 +143,7 @@ return require('packer').startup(function()
 	    -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
 	    -- true
 	    analyze_open_documents_only = false,
-	}))
+    	}))
 
 	vim.cmd('COQnow -s')
 
